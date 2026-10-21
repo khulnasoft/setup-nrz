@@ -8,7 +8,7 @@ branding:
 
 inputs:
   nrz-version:
-    description: 'The version of nrz to install (e.g. "latest", "1.0.0-rc.18", "1.x")'
+    description: 'The version of nrz to install (e.g. "latest", "1.0.0", "1.x")'
     required: false
     default: 'latest'
   nrz-version-file:

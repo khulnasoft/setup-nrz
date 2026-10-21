@@ -37,7 +37,7 @@ Set up your GitHub Actions workflow with [nrz](https://nrz.khulnasoft.com) — t
 - name: Setup nrz
   uses: khulnasoft/setup-nrz@v1
   with:
-    nrz-version: '1.0.0-rc.18'
+    nrz-version: '1.0.0'
 ```
 
 ### Version from File
@@ -72,7 +72,7 @@ Set up your GitHub Actions workflow with [nrz](https://nrz.khulnasoft.com) — t
 - name: Setup nrz
   uses: khulnasoft/setup-nrz@v1
   with:
-    nrz-version: '1.0.0-rc.18'
+    nrz-version: '1.0.0'
     no-cache: 'true'
 ```
 
@@ -121,7 +121,7 @@ jobs:
 
 | Input              | Description                                                         | Default               | Required |
 | ------------------ | ------------------------------------------------------------------- | --------------------- | -------- |
-| `nrz-version`      | The version of nrz to install (e.g. "latest", "1.0.0-rc.18", "1.x") | `latest`              | No       |
+| `nrz-version`      | The version of nrz to install (e.g. "latest", "1.0.0", "1.x")       | `latest`              | No       |
 | `nrz-version-file` | File to read nrz version from (e.g. "package.json", ".nrz-version") |                       | No       |
 | `registry-url`     | The npm registry URL to use for installing nrz                      |                       | No       |
 | `no-cache`         | Disable caching of nrz installation                                 | `false`               | No       |
@@ -142,7 +142,7 @@ The action supports several ways to specify which version of nrz to install:
 ### 1. Exact Version
 
 ```yaml
-nrz-version: '1.0.0-rc.18' # Installs exactly this version
+nrz-version: '1.0.0' # Installs exactly this version
 ```
 
 ### 2. Latest Version
@@ -176,7 +176,7 @@ Or from the `packageManager` field:
 
 ```json
 {
-  "packageManager": "nrz@1.0.0-rc.18"
+  "packageManager": "nrz@1.0.0"
 }
 ```
 
@@ -185,7 +185,7 @@ Or from the `packageManager` field:
 Create a `.nrz-version` file in your repository root:
 
 ```
-1.0.0-rc.18
+1.0.0
 ```
 
 ## Caching
@@ -221,7 +221,7 @@ After installation, the following binaries are available in your PATH:
 ```yaml
 - name: Install nrz manually
   run: |
-    npm install -g nrz@1.0.0-rc.18
+    npm install -g nrz@1.0.0
     echo "$(npm bin -g)" >> $GITHUB_PATH
 ```
 
@@ -231,7 +231,7 @@ After installation, the following binaries are available in your PATH:
 - name: Setup nrz
   uses: khulnasoft/setup-nrz@v1
   with:
-    nrz-version: '1.0.0-rc.18'
+    nrz-version: '1.0.0'
 ```
 
 **Benefits of using the action:**

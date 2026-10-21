@@ -20,19 +20,19 @@ describe('Version Resolution', () => {
     });
 
     test('should return specific version as-is', async () => {
-      const result = await resolveNrzVersion('1.0.0-rc.18');
-      expect(result).toBe('1.0.0-rc.18');
+      const result = await resolveNrzVersion('1.0.0');
+      expect(result).toBe('1.0.0');
     });
 
     test('should resolve semver range via npm view', async () => {
       mockExec.exec.mockImplementation(async (command: string, args: string[], options: any) => {
         if (command === 'npm' && args.includes('view')) {
-          options.listeners.stdout(Buffer.from('"1.0.0-rc.18"'));
+          options.listeners.stdout(Buffer.from('"1.0.0"'));
         }
       });
 
       const result = await resolveNrzVersion('1.x');
-      expect(result).toBe('1.0.0-rc.18');
+      expect(result).toBe('1.0.0');
     });
 
     test('should handle npm view failure gracefully', async () => {
@@ -60,10 +60,10 @@ describe('Version Resolution', () => {
 
     test('should read version from .nrz-version file', async () => {
       const versionFile = path.join(tempDir, '.nrz-version');
-      fs.writeFileSync(versionFile, '1.0.0-rc.18\n');
+      fs.writeFileSync(versionFile, '1.0.0\n');
 
       const result = await resolveNrzVersion('latest', versionFile);
-      expect(result).toBe('1.0.0-rc.18');
+      expect(result).toBe('1.0.0');
     });
 
     test('should read version from package.json engines.nrz', async () => {
@@ -78,29 +78,29 @@ describe('Version Resolution', () => {
 
       mockExec.exec.mockImplementation(async (command: string, args: string[], options: any) => {
         if (command === 'npm' && args.includes('view')) {
-          options.listeners.stdout(Buffer.from('"1.0.0-rc.18"'));
+          options.listeners.stdout(Buffer.from('"1.0.0"'));
         }
       });
 
       const result = await resolveNrzVersion('latest', packageFile);
-      expect(result).toBe('1.0.0-rc.18');
+      expect(result).toBe('1.0.0');
     });
 
     test('should read version from package.json packageManager', async () => {
       const packageFile = path.join(tempDir, 'package.json');
       const packageContent = {
         name: 'test',
-        packageManager: 'nrz@1.0.0-rc.18',
+        packageManager: 'nrz@1.0.0',
       };
       fs.writeFileSync(packageFile, JSON.stringify(packageContent, null, 2));
 
       const result = await resolveNrzVersion('latest', packageFile);
-      expect(result).toBe('1.0.0-rc.18');
+      expect(result).toBe('1.0.0');
     });
 
     test('should handle non-existent version file', async () => {
-      const result = await resolveNrzVersion('1.0.0-rc.18', '/non/existent/file');
-      expect(result).toBe('1.0.0-rc.18'); // Should fallback to requested version
+      const result = await resolveNrzVersion('1.0.0', '/non/existent/file');
+      expect(result).toBe('1.0.0'); // Should fallback to requested version
     });
   });
 });

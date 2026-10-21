@@ -54,7 +54,7 @@ jobs:
         uses: ./
         id: setup-specific
         with:
-          nrz-version: '1.0.0-rc.18'
+          nrz-version: '1.0.0'
 
       - name: Verify nrz installation (specific version)
         run: |
@@ -75,7 +75,7 @@ jobs:
           node-version: '22'
 
       - name: Create .nrz-version file
-        run: echo '1.0.0-rc.18' > .nrz-version
+        run: echo '1.0.0' > .nrz-version
 
       - name: Test setup-nrz with version file
         uses: ./
@@ -127,7 +127,7 @@ jobs:
         uses: ./
         id: setup-cache-1
         with:
-          nrz-version: '1.0.0-rc.18'
+          nrz-version: '1.0.0'
 
       - name: Verify first installation
         run: |
@@ -138,7 +138,7 @@ jobs:
         uses: ./
         id: setup-cache-2
         with:
-          nrz-version: '1.0.0-rc.18'
+          nrz-version: '1.0.0'
 
       - name: Verify cache behavior
         run: |
@@ -149,7 +149,7 @@ jobs:
         uses: ./
         id: setup-no-cache
         with:
-          nrz-version: '1.0.0-rc.18'
+          nrz-version: '1.0.0'
           no-cache: 'true'
 
       - name: Verify no-cache behavior

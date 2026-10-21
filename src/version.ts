@@ -59,7 +59,7 @@ async function readVersionFromFile(filePath: string): Promise<string | null> {
         return packageJson.engines.nrz;
       }
 
-      // Check packageManager field (e.g., "nrz@1.0.0-rc.18")
+      // Check packageManager field (e.g., "nrz@1.0.0")
       if (packageJson.packageManager?.startsWith('nrz@')) {
         const version = packageJson.packageManager.substring(4);
         core.info(`Read nrz version from ${filePath} packageManager: ${version}`);
