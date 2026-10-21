@@ -1,0 +1,158 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Test setup-nrz with latest version
+        uses: ./
+        id: setup-latest
+        with:
+          nrz-version: 'latest'
+
+      - name: Verify nrz installation (latest)
+        run: |
+          nrz --version
+          echo "Installed version: ${{ steps.setup-latest.outputs.nrz-version }}"
+          echo "nrz path: ${{ steps.setup-latest.outputs.nrz-path }}"
+          echo "Cache hit: ${{ steps.setup-latest.outputs.cache-hit }}"
+
+      - name: Test nrz basic functionality
+        run: |
+          nrz --help || echo "nrz --help failed"
+          which nrz || echo "nrz not found in PATH"
+
+      - name: Check npm and node versions
+        run: |
+          node --version
+          npm --version
+
+      - name: Test setup-nrz with specific version
+        uses: ./
+        id: setup-specific
+        with:
+          nrz-version: '1.0.0-rc.18'
+
+      - name: Verify nrz installation (specific version)
+        run: |
+          nrz --version
+          echo "Installed version: ${{ steps.setup-specific.outputs.nrz-version }}"
+
+  test-version-file:
+    name: Test version file support
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Create .nrz-version file
+        run: echo '1.0.0-rc.18' > .nrz-version
+
+      - name: Test setup-nrz with version file
+        uses: ./
+        id: setup-version-file
+        with:
+          nrz-version-file: '.nrz-version'
+
+      - name: Verify version from file
+        run: |
+          nrz --version
+          echo "Installed version: ${{ steps.setup-version-file.outputs.nrz-version }}"
+
+      - name: Create package.json with engines.nrz
+        run: |
+          cat > package.json << 'EOF'
+          {
+            "name": "test-package",
+            "engines": {
+              "nrz": "^1.0.0"
+            }
+          }
+          EOF
+
+      - name: Test setup-nrz with package.json
+        uses: ./
+        id: setup-package-json
+        with:
+          nrz-version-file: 'package.json'
+
+      - name: Verify version from package.json
+        run: |
+          nrz --version
+          echo "Installed version: ${{ steps.setup-package-json.outputs.nrz-version }}"
+
+  test-caching:
+    name: Test caching functionality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Test setup-nrz with caching (first run)
+        uses: ./
+        id: setup-cache-1
+        with:
+          nrz-version: '1.0.0-rc.18'
+
+      - name: Verify first installation
+        run: |
+          echo "First run cache hit: ${{ steps.setup-cache-1.outputs.cache-hit }}"
+          nrz --version
+
+      - name: Test setup-nrz with caching (second run)
+        uses: ./
+        id: setup-cache-2
+        with:
+          nrz-version: '1.0.0-rc.18'
+
+      - name: Verify cache behavior
+        run: |
+          echo "Second run cache hit: ${{ steps.setup-cache-2.outputs.cache-hit }}"
+          nrz --version
+
+      - name: Test setup-nrz with no-cache
+        uses: ./
+        id: setup-no-cache
+        with:
+          nrz-version: '1.0.0-rc.18'
+          no-cache: 'true'
+
+      - name: Verify no-cache behavior
+        run: |
+          echo "No-cache run cache hit: ${{ steps.setup-no-cache.outputs.cache-hit }}"
+          nrz --version

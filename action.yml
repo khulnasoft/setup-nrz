@@ -1,0 +1,41 @@
+name: Setup nrz
+description: Download, install, and setup nrz to your path.
+author: khulnasoft
+
+branding:
+  icon: package
+  color: black
+
+inputs:
+  nrz-version:
+    description: 'The version of nrz to install (e.g. "latest", "1.0.0-rc.18", "1.x")'
+    required: false
+    default: 'latest'
+  nrz-version-file:
+    description: 'File to read nrz version from (e.g. "package.json", ".nrz-version")'
+    required: false
+  registry-url:
+    description: 'The npm registry URL to use for installing nrz'
+    required: false
+  no-cache:
+    description: 'Disable caching of nrz installation'
+    required: false
+    default: 'false'
+  token:
+    description: 'GitHub token for API requests (helps avoid rate limiting)'
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  nrz-version:
+    description: 'The version of nrz that was installed'
+  nrz-path:
+    description: 'The path to the nrz executable'
+  cache-hit:
+    description: 'Whether the nrz installation was restored from cache'
+
+runs:
+  using: 'node20'
+  main: 'dist/setup/index.js'
+  post: 'dist/cache-save/index.js'
+  post-if: success()
