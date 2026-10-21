@@ -3,7 +3,7 @@
 [![CI](https://github.com/khulnasoft/setup-nrz/actions/workflows/ci.yml/badge.svg)](https://github.com/khulnasoft/setup-nrz/actions/workflows/ci.yml)
 [![Integration Tests](https://github.com/khulnasoft/setup-nrz/actions/workflows/test.yml/badge.svg)](https://github.com/khulnasoft/setup-nrz/actions/workflows/test.yml)
 
-Set up your GitHub Actions workflow with [nrz](https://nrz.sh) — the next-gen JavaScript package manager.
+Set up your GitHub Actions workflow with [nrz](https://nrz.khulnasoft.com) — the next-gen JavaScript package manager.
 
 ## Features
 
@@ -258,7 +258,7 @@ nrz is a next-generation JavaScript package manager that offers:
 - 🎯 **Zero-config** for most projects
 - 🔄 **Compatible** with npm ecosystem
 
-Learn more at [nrz.sh](https://nrz.sh).
+Learn more at [nrz.khulnasoft.com](https://nrz.khulnasoft.com).
 
 ## Contributing
 
