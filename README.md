@@ -209,10 +209,10 @@ Cache is saved after the main action completes successfully and restored at the 
 After installation, the following binaries are available in your PATH:
 
 - `nrz` - Main nrz package manager
-- `vlr` - nrz runner
-- `vlx` - nrz executor
-- `vlrx` - nrz runner executor
-- `vlxl` - nrz executor with logging
+- `nrr` - nrz runner
+- `nrx` - nrz executor
+- `nrrx` - nrz runner executor
+- `nrxl` - nrz executor with logging
 
 ## Comparison with Manual Installation
 
